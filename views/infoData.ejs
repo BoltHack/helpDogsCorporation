@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/css/main.css">
+<button id="toggleButton">Данные</button>
+<div id="content" style="display: none;">
+    <div id="content-info">
+        <% if(user) {%>
+            <div class="user-container">
+                <div class="data">
+                    <h3>Ваши данные</h3>
+                    <div class="you-container">
+                        <img src="/images/user.jpg" class="you-img">
+                        <p class="textW">Ваше имя: <%= user.name %></p>
+                        <p class="textW">Ваш эл. адрес: <%= user.email %></p>
+                    </div>
+                    <h3>Данные о вашем питомце:</h3>
+                    <div class="dog-container">
+                        <img src="https://cdn2.thedogapi.com/images/2xUswk2y8.jpg" class="dog-img">
+                        <p class="textW">Имя питомца: <%= user.petName %></p>
+                        <p class="textW">Возраст: <%= user.petYears %> лет/год(а)</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <%} else {%>
+        <p>Не найдено</p>
+    <%}%>
+</div>
+<script src="/js/main.js"></script>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/register.css">
+    <title>Регистрация</title>
+</head>
+<body>
+<form action="/pets/register" method="post" class="registration-form">
+<div class="div-container">
+    <div class="container">
+        <h1>Регистрация</h1>
+            <h3>Ваши данные</h3>
+            <div class="form-group">
+                <input type="text" placeholder="Имя пользователя" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Электронная почта" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Пароль" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Повтор Пароля" id="confirmPassword" name="confirmPassword" required>
+            </div>
+        <div class="button">
+            <button type="submit">Зарегистрироваться</button><br>
+            <br><a href="/">Уже есть аккаунт</a>
+        </div>
+    </div>
+    <div class="container2">
+        <h3>Данные питомца</h3>
+        <div class="registration-form">
+            <div class="form-group">
+                <input type="text" placeholder="Имя питомца" id="petName" name="petName" required>
+            </div>
+            <div class="form-group">
+                <input type="number" placeholder="Возраст питомца" id="petYears" name="petYears" required>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+</body>
+</html>

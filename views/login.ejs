@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/login.css">
+    <title>Авторизация</title>
+</head>
+<body>
+<div class="div-container">
+    <div class="container">
+        <form action="/pets/login" method="post" class="login-form">
+            <h1>Авторизация</h1>
+            <div class="form-group">
+                <input type="email" placeholder="Электронная почта" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Пароль" id="password" name="password" required>
+            </div>
+            <button type="submit">Войти</button><br>
+            <p class="or">—————— ИЛИ ——————</p>
+            <a href="https://www.facebook.com/" target="_blank" class="or2">Войти через Facebook</a>
+            <p class="or3">Забыл пароль?</p>
+        </form>
+    </div>
+    <div class="container2">
+        <br><p>У вас ещё нет аккаунта?</p>
+        <a href="http://localhost:3000/pets/register" class="register">Зарегистрироваться</a>
+    </div>
+    <div class="center">
+        <p>Установите приложение.</p>
+        <div class="application">
+            <img src="/images/image1.png" class="microsoft">
+            <img src="/images/image2.png" class="googlePlay">
+        </div>
+    </div>
+</div>
+<div class="decoration">
+    <h1 class="icon home2">HelpDogsCorporation</h1>
+    <h2>Мы даём вам полезную информацию,</h2>
+    <h2>как ухаживать за вашим питмоцем.</h2>
+</div>
+</body>
+</html>

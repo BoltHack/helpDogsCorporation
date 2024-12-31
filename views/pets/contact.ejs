@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HDCorporation | Наши контакты</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<header>
+    <a href="/pets/index"><h1 class="home">HelpDogsCorporation!</h1></a>
+    <h3>Контакты.</h3>
+</header>
+
+<%- include('../symbtomsHeader') -%>
+
+<div class="info-container">
+<h2><%= ititle %></h2>
+
+<% if (iemailsVisible) {%>
+    <h3>Электронные адреса</h3>
+    <ul>
+        <% for(var a = 0; a < iemails.length; a++) {%>
+        <li>Почта: <%= iemails[a] %></li>
+            <% } %>
+        <br><li>Имя: <%= iname %></li>
+        <li>Номер телефона: <%= iphone %></li>
+    </ul>
+<% }
+else {%>
+    <h3>Электронные адреса скрыты</h3>
+<%}%>
+<% if(ipasswordVisible) {%>
+    <ul>
+        <li>Пароль: <%= ipassword %></li>
+    </ul>
+<%}
+else {%>
+    <h3>Пароль скрыт</h3>
+<%}%>
+</div>
+<%- include('../infoData') -%>
+
+<%- include('../footer') -%>
+</body>
+</html>

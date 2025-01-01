@@ -1,54 +1,215 @@
-const createError = require("http-errors");
-const express = require("express");
+const bcrypt = require("bcrypt");
+const fs = require("fs");
 const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const session = require("express-session");
 
-const indexRouter = require("./routes/index.js");
+class PetsController {
 
-const app = express();
+    static registerPage = (req, res, next) => {
+        try {
+            res.render('pets/register');
+        } catch (e) {
+            next(e);
+        }
+    }
 
-app.get('/', (req, res) => {
-  res.render('login');
-});
+    static register = async (req, res, next) => {
+        try {
+            const { email, password, confirmPassword, name, petName, petYears} = req.body;
 
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: true,
-}));
+            const filePath = path.join(__dirname, '../data', email + '.json')
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+            if(fs.existsSync(filePath)){
+                return res.status(400).send(`
+                    <link rel="stylesheet" href="/css/login.css">
+                    <div class="error-container">
+                    <p>Данный Email уже зарегистрирован.</p>
+                    <a href="http://localhost:3000/pets/register">Вернуться назад</a>
+                    </div>
+                    `)
+            }
+
+            if(confirmPassword !== password) {
+                return res.send(`
+                <link rel="stylesheet" href="/css/login.css">
+                    <div class="error-container">
+                    <p>Пароли не совпадают.</p>
+                    <a href="http://localhost:3000/pets/register">Вернуться назад</a>
+                    </div>
+                `)
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            fs.writeFileSync(filePath, JSON.stringify({
+                email, realPassword: password, password: hashedPassword, confirmPassword: hashedPassword, name, petName, petYears
+            }))
+
+            res.redirect('/');
+        } catch (e) {
+            console.error(e);
+            next(e);
+        }
+    }
+
+    static loginPage = (req, res, next) => {
+        try {
+            res.render('login');
+        } catch (e) {
+            next(e);
+        }
+    }
+    static login = async(req, res, next) => {
+        try{
+            const {email, password} = req.body
+            const filePath = path.join(__dirname, '../data', email + '.json')
+            if(fs.existsSync(filePath)){
+                const data = JSON.parse(fs.readFileSync(filePath), 'utf-8')
+                const { name } = data
+                const passwordMatch = await bcrypt.compare(password, data.password);
+
+                if (passwordMatch) {
+                    req.session.user = {email, name, petName: data.petName, petYears: data.petYears};
+                }else{
+                    res.send(`
+                    <link rel="stylesheet" href="/css/login.css">
+                    <div class="error-container">
+                    <p>Пароль введён неправильно.</p>
+                    <a href="http://localhost:3000">Вернуться назад</a>
+                    </div>
+                    `)
+                }
+            }else{
+                res.send(`
+                    <link rel="stylesheet" href="/css/login.css">
+                    <div class="error-container">
+                    <p>Адрес электронной почты не существует.</p>
+                    <a href="http://localhost:3000">Вернуться назад</a>
+                    </div>
+`)
+            }
+            res.redirect('/pets/index');
+        }catch(e){
+            console.log(e)
+            next(e)
+        }
+    }
+
+    static mainPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/index', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+    static medicationPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/medication', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+    static acepromazineMaleatePage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/acepromazine-maleate', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+    static acetaminophenTylenolPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/acetaminophen-tylenol', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+    static aluminumHydroxidePage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/aluminum-hydroxide', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    static foodPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/food', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    static trainingPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/training', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    static rulesPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/rules', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    static privacyPolicyPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/privacyPolicy', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    static aboutPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/about', { user: { name, email, petName, petYears } });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    static contactPage = (req, res, next) => {
+        try {
+            const { user } = req.session || {};
+            const { name, email, petName, petYears } = user || {};
+            res.render('pets/contact', {
+                user: { name, email, petName, petYears },
+                ititle: "Контакты",
+                iemailsVisible: true,
+                iname: "test",
+                iemails: ["test@gmail.com"],
+                iphone: "+486524485",
+                ipassword: '123456789',
+                ipasswordVisible: false
+            })
+        } catch (e) {
+            next(e);
+        }
+    }
+
+}
 
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-app.listen(3000, () => {
-  console.log('Сервер запущен')
-})
+module.exports = PetsController;
